@@ -1,24 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cinematic Information Test</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #e87928;
-      color: #fff;
-      font: bold 7vw Arial, sans-serif;
-      text-align: center;
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cinematic Information 2.5.2 · Working Flip</title><style>
+:root{--ivory:#e8dfcc;--yellow:#dfb33d;--red:#d36a24;--charcoal:#302b28}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#302b28;font-family:Impact,'Arial Narrow','Helvetica Neue',Arial,sans-serif}#stage{position:fixed;inset:0;overflow:hidden;background:var(--ivory);isolation:isolate}#stage:after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 2.5vmin #fff5,inset 0 0 8vmin #26160c22;z-index:5}.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:7% 9% 7% 16%;text-align:right;align-items:flex-end;opacity:0;visibility:hidden;transition:opacity .65s ease,visibility .65s;overflow:hidden}.slide.active{opacity:1;visibility:visible}.slide:before{content:'';position:absolute;inset:-35%;background:radial-gradient(ellipse at 30% 40%,#fff4,transparent 48%),radial-gradient(ellipse at 75% 70%,#0001,transparent 52%);animation:drift 25s ease-in-out infinite alternate;pointer-events:none}.slide>*{position:relative;z-index:3}.ivory{background:#e8dfcc;color:#302b28}.red{background:#d36a24;color:#fff8e8}.yellow{background:#dfb33d;color:#302b28}.charcoal{background:#302b28;color:#fff3d9}.eyebrow{font:700 clamp(25.08px,3.96vmin,44.88px)/1.2 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4%}.hero{font-weight:900;font-stretch:condensed;letter-spacing:.015em;line-height:1.04;text-transform:uppercase;overflow-wrap:normal;text-wrap:balance}.clock{font-size:clamp(205.92px,41.184vmin,601.92px);font-variant-numeric:tabular-nums;white-space:nowrap}.weather{font-size:clamp(285.12px,66.528vmin,934.56px)}.forecast{font-size:clamp(158.4px,28.512vmin,427.68px);line-height:1.08;letter-spacing:.065em}.datebig{font-size:clamp(316.8px,68.112vmin,918.72px)}.subtitle{font:900 clamp(54.12px,9.8208vmin,145.2px)/1.12 Arial,sans-serif;letter-spacing:.012em;text-transform:uppercase;margin-top:5%}.detail{font:700 clamp(40.92px,6.336vmin,92.4px)/1.3 Arial,sans-serif;margin-top:4%}.accent{color:#d36a24}.red .accent{color:#ffe4a4}.days{display:grid;grid-template-columns:1fr;gap:1.6%;margin-top:6%;width:84%}.day{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font:800 clamp(44.88px,6.336vmin,92.4px)/1.15 Arial,sans-serif;padding:1.2% 0}.day strong{font-size:clamp(95.04px,15.84vmin,229.68px);font-variant-numeric:tabular-nums}.slide.active .hero{animation:enter .85s cubic-bezier(.16,1,.3,1) both}.slide.active .subtitle{animation:enter .8s .1s cubic-bezier(.16,1,.3,1) both}.slide.active .detail{animation:enter .8s .2s cubic-bezier(.16,1,.3,1) both}#controls{position:fixed;right:10px;bottom:10px;z-index:20;display:flex;gap:6px;opacity:.12;transition:opacity .2s}#controls:hover,#controls:focus-within{opacity:1}button{border:0;background:#24211f;color:white;padding:10px 12px;font:600 13px Arial;cursor:pointer} @keyframes enter{from{opacity:0;transform:translateY(4%) scaleY(1.08)}to{opacity:1;transform:none}}@keyframes drift{from{transform:translate(-2%,-2%)}to{transform:translate(3%,3%)}}
+/* Subtle, crisp text depth on orange and yellow slides only. */
+.slide.red .eyebrow,.slide.red .hero,.slide.red .subtitle,.slide.red .detail,
+.slide.yellow .eyebrow,.slide.yellow .hero,.slide.yellow .day {
+  text-shadow: 0 3px 5px rgba(38, 26, 18, .24), 0 1px 1px rgba(38, 26, 18, .12);
+}
+/* A landscape browser connected to a physically portrait TV gets one 90-degree CSS rotation. */
+@media (orientation:landscape){#stage{inset:auto;left:0;top:100vh;width:100vh;height:100vw;transform-origin:top left;transform:rotate(-90deg)}.slide{padding:8% 9% 8% 16%}.clock{font-size:clamp(190.08px,38.016vh,570.24px)}.weather{font-size:clamp(269.28px,61.776vh,871.2px)}.forecast{font-size:clamp(158.4px,26.928vh,396px)}.datebig{font-size:clamp(300.96px,63.36vh,855.36px)}.eyebrow{font-size:clamp(25.08px,3.8016vh,44.88px)}.subtitle{font-size:clamp(54.12px,9.504vh,135.96px)}.detail{font-size:clamp(40.92px,6.336vh,88.44px)}.day{font-size:clamp(44.88px,6.336vh,87.12px)}.day strong{font-size:clamp(95.04px,14.256vh,213.84px)}}
+@media(prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}}
+
+/* Flip treatment does not override slide transitions or the live clock. */
+@keyframes cardFlip {
+  0% { transform: perspective(900px) rotateX(-55deg); opacity:.65; }
+  55% { transform: perspective(900px) rotateX(8deg); opacity:1; }
+  100% { transform: perspective(900px) rotateX(0deg); opacity:1; }
+}
+.flip-now { animation: cardFlip .75s ease-out both !important; transform-origin: 50% 50%; }
+@media (prefers-reduced-motion: reduce) { .flip-now {animation:none!important} }
+</style></head><body><main id="stage"><section class="slide ivory active"><div class="eyebrow">Little Canada, Minnesota</div><div class="hero clock" id="clock">10:26</div><div class="subtitle" id="ampm">AM</div><div class="detail" id="today">Monday, October 26</div></section><section class="slide red"><div class="eyebrow">Outside now</div><div class="hero weather" id="temp">--°</div><div class="subtitle" id="conditions">Loading weather</div><div class="detail" id="feels">Connecting...</div></section><section class="slide yellow"><div class="eyebrow">Five-day forecast</div><div class="hero forecast">LOOK<br>AHEAD<span class="accent">.</span></div><div class="days"><div class="day"><span>---</span><strong>--°</strong></div><div class="day"><span>---</span><strong>--°</strong></div><div class="day"><span>---</span><strong>--°</strong></div><div class="day"><span>---</span><strong>--°</strong></div><div class="day"><span>---</span><strong>--°</strong></div></div></section><section class="slide charcoal"><div class="eyebrow">Today's date</div><div class="hero datebig" id="daynumber">26<span class="accent">.</span></div><div class="subtitle" id="monthyear">October 2026</div><div class="detail" id="weekday">Monday</div></section></main><nav id="controls"><button id="previous">‹</button><button id="toggle">Pause</button><button id="next">›</button><button id="fullscreen">Full screen</button><button id="rotate">Flip orientation</button></nav><script>
+(function () {
+  'use strict';
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var index = 0, paused = false, flipped = false, lastTime = '';
+  var clock = document.getElementById('clock');
+  function flip(el) {
+    if (!el) return;
+    el.classList.remove('flip-now');
+    void el.offsetWidth;
+    el.classList.add('flip-now');
+  }
+  function show(n) {
+    index = (n + slides.length) % slides.length;
+    for (var i=0; i<slides.length; i++) {
+      if (i === index) {
+        slides[i].classList.add('active');
+      } else {
+        slides[i].classList.remove('active');
+      }
     }
-  </style>
-</head>
-<body>
-  CINEMATIC<br>INFORMATION
-</body>
-</html>
+    var targets = slides[index].querySelectorAll('.clock,.weather,.datebig,.day strong');
+    for (var j=0; j<targets.length; j++) flip(targets[j]);
+  }
+  function tick() {
+    var d = new Date(), h = d.getHours();
+    var time = (h%12||12) + ':' + ('0'+d.getMinutes()).slice(-2);
+    if (lastTime !== time) {
+      clock.textContent = time;
+      if (lastTime && index === 0) flip(clock);
+      lastTime = time;
+    }
+    document.getElementById('ampm').textContent = h>=12 ? 'PM':'AM';
+    document.getElementById('today').textContent = d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+    document.getElementById('daynumber').innerHTML = d.getDate()+'<span class="accent">.</span>';
+    document.getElementById('monthyear').textContent = d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+    document.getElementById('weekday').textContent = d.toLocaleDateString('en-US',{weekday:'long'});
+  }
+  document.getElementById('next').onclick=function(){show(index+1)};
+  document.getElementById('previous').onclick=function(){show(index-1)};
+  document.getElementById('toggle').onclick=function(){
+    paused=!paused; this.textContent=paused?'Play':'Pause';
+  };
+  document.getElementById('fullscreen').onclick=function(){
+    var fn=document.documentElement.requestFullscreen;
+    if(fn) fn.call(document.documentElement);
+  };
+  document.getElementById('rotate').onclick=function(){
+    flipped=!flipped;
+    document.getElementById('stage').style.rotate=flipped?'180deg':'0deg';
+  };
+  tick();
+  setInterval(tick, 1000);
+  setInterval(function(){if(!paused)show(index+1)},14000);
+
+  var weatherLast = 0;
+  var weatherURL = 'https://api.open-meteo.com/v1/forecast?latitude=45.0269&longitude=-93.0877&current=temperature_2m,apparent_temperature,weather_code,is_day&daily=temperature_2m_max&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=5';
+  function condition(c, day) {
+    if(c===0)return day?'Clear skies':'Clear night';
+    if(c===1)return 'Mostly clear';
+    if(c===2)return 'Partly cloudy';
+    if(c===3)return 'Overcast';
+    if(c===45||c===48)return 'Fog';
+    if(c>=51&&c<=57)return 'Drizzle';
+    if(c>=61&&c<=67)return 'Rain';
+    if(c>=71&&c<=77)return 'Snow';
+    if(c>=80&&c<=82)return 'Rain showers';
+    if(c>=85&&c<=86)return 'Snow showers';
+    if(c>=95)return 'Thunderstorms';
+    return 'Weather conditions';
+  }
+  function weatherUnavailable() {
+    document.getElementById('temp').textContent='--°';
+    document.getElementById('conditions').textContent='Weather unavailable';
+    document.getElementById('feels').textContent='Retrying automatically';
+    var rows=document.querySelectorAll('.day');
+    for(var i=0;i<rows.length;i++){
+      rows[i].getElementsByTagName('span')[0].textContent='---';
+      rows[i].getElementsByTagName('strong')[0].textContent='--°';
+    }
+  }
+  function getWeather() {
+    var x=new XMLHttpRequest();
+    x.open('GET',weatherURL+'&cache='+new Date().getTime(),true);
+    x.timeout=12000;
+    x.onreadystatechange=function(){
+      if(x.readyState!==4)return;
+      if(x.status!==200){if(new Date().getTime()-weatherLast>1800000)weatherUnavailable();return;}
+      try {
+        var d=JSON.parse(x.responseText),c=d.current,f=d.daily;
+        if(!c||!f||!f.time||f.time.length<5||typeof c.temperature_2m!=='number'||typeof c.apparent_temperature!=='number')throw Error('Missing data');
+        document.getElementById('temp').textContent=Math.round(c.temperature_2m)+'°';
+        document.getElementById('conditions').textContent=condition(c.weather_code,c.is_day===1);
+        document.getElementById('feels').textContent='Feels like '+Math.round(c.apparent_temperature)+'°';
+        var rows=document.querySelectorAll('.day'),names=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+        for(var i=0;i<5;i++){
+          var p=f.time[i].split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);
+          rows[i].getElementsByTagName('span')[0].textContent=names[dt.getDay()];
+          rows[i].getElementsByTagName('strong')[0].textContent=typeof f.temperature_2m_max[i]==='number'?Math.round(f.temperature_2m_max[i])+'°':'--°';
+        }
+        weatherLast=new Date().getTime();
+      }catch(e){if(new Date().getTime()-weatherLast>1800000)weatherUnavailable();}
+    };
+    x.onerror=x.ontimeout=function(){if(new Date().getTime()-weatherLast>1800000)weatherUnavailable();};
+    x.send(null);
+  }
+  getWeather();
+  setInterval(getWeather,900000);
+  setInterval(function(){if(new Date().getTime()-weatherLast>1800000)weatherUnavailable();},60000);
+
+})();
+</script></body></html>
+tok
