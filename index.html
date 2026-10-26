@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Cinematic Information 2.5.3 · Live Weather</title>
+<title>Cinematic Information 2.5.4 · TV Layout</title>
 <style>
 :root {
   --ivory:#e8dfcc;
@@ -23,22 +22,22 @@ html,body {
 }
 #stage {
   position:fixed;
-  inset:0;
+  top:0; right:0; bottom:0; left:0;
   overflow:hidden;
-  background:var(--ivory);
+  background:#e8dfcc;
   isolation:isolate;
 }
 #stage:after {
   content:'';
   position:absolute;
-  inset:0;
+  top:0; right:0; bottom:0; left:0;
   pointer-events:none;
   box-shadow:inset 0 0 2.5vmin #fff5,inset 0 0 8vmin #26160c22;
   z-index:5;
 }
 .slide {
   position:absolute;
-  inset:0;
+  top:0; right:0; bottom:0; left:0;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -57,19 +56,20 @@ html,body {
 .slide:before {
   content:'';
   position:absolute;
-  inset:-35%;
+  top:-35%; right:-35%; bottom:-35%; left:-35%;
   background:
     radial-gradient(ellipse at 30% 40%,#fff4,transparent 48%),
     radial-gradient(ellipse at 75% 70%,#0001,transparent 52%);
   animation:drift 25s ease-in-out infinite alternate;
   pointer-events:none;
 }
-.slide>* { position:relative; z-index:3; }
+.slide>* { position:relative; z-index:3; flex-shrink:0; max-width:100%; }
 .ivory { background:#e8dfcc; color:#302b28; }
 .red { background:#d36a24; color:#fff8e8; }
 .yellow { background:#dfb33d; color:#302b28; }
 .charcoal { background:#302b28; color:#fff3d9; }
 .eyebrow {
+  font:700 3.96vmin/1.2 Arial,sans-serif;
   font:700 clamp(25.08px,3.96vmin,44.88px)/1.2 Arial,sans-serif;
   letter-spacing:.14em;
   text-transform:uppercase;
@@ -85,33 +85,37 @@ html,body {
   text-wrap:balance;
 }
 .clock {
+  font-size:41.184vmin;
   font-size:clamp(205.92px,41.184vmin,601.92px);
   font-variant-numeric:tabular-nums;
   white-space:nowrap;
 }
-.weather { font-size:clamp(285.12px,66.528vmin,934.56px); }
+.weather { font-size:66.528vmin;
+  font-size:clamp(285.12px,66.528vmin,934.56px); }
 .forecast {
+  font-size:28.512vmin;
   font-size:clamp(158.4px,28.512vmin,427.68px);
   line-height:1.08;
   letter-spacing:.065em;
 }
-.datebig { font-size:clamp(316.8px,68.112vmin,918.72px); }
+.datebig { font-size:68.112vmin;
+  font-size:clamp(316.8px,68.112vmin,918.72px); }
 .subtitle {
+  font:900 9.8208vmin/1.12 Arial,sans-serif;
   font:900 clamp(54.12px,9.8208vmin,145.2px)/1.12 Arial,sans-serif;
   letter-spacing:.012em;
   text-transform:uppercase;
   margin-top:5%;
 }
 .detail {
+  font:700 6.336vmin/1.3 Arial,sans-serif;
   font:700 clamp(40.92px,6.336vmin,92.4px)/1.3 Arial,sans-serif;
   margin-top:4%;
 }
 .accent { color:#d36a24; }
 .red .accent { color:#ffe4a4; }
 .days {
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1.6%;
+  display:block;
   margin-top:6%;
   width:84%;
 }
@@ -119,11 +123,14 @@ html,body {
   display:flex;
   justify-content:space-between;
   align-items:baseline;
-  gap:10px;
+
+  font:800 6.336vmin/1.15 Arial,sans-serif;
   font:800 clamp(44.88px,6.336vmin,92.4px)/1.15 Arial,sans-serif;
   padding:1.2% 0;
+  margin-top:1.6%;
 }
 .day strong {
+  font-size:15.84vmin;
   font-size:clamp(95.04px,15.84vmin,229.68px);
   font-variant-numeric:tabular-nums;
 }
@@ -156,24 +163,33 @@ html,body {
 }
 @media (orientation:landscape) {
   #stage {
-  inset:auto;
-  left:0;
-  top:100vh;
-  width:100vh;
-  height:100vw;
-  transform-origin:top left;
-  transform:rotate(-90deg);
-}
+    right:auto; bottom:auto;
+    left:0; top:100vh;
+    width:100vh; height:100vw;
+    -webkit-transform-origin:top left;
+    transform-origin:top left;
+    -webkit-transform:rotate(-90deg);
+    transform:rotate(-90deg);
+  }
   .slide { padding:8% 9% 8% 16%; }
-  .clock { font-size:clamp(190.08px,38.016vh,570.24px); }
-  .weather { font-size:clamp(269.28px,61.776vh,871.2px); }
-  .forecast { font-size:clamp(158.4px,26.928vh,396px); }
-  .datebig { font-size:clamp(300.96px,63.36vh,855.36px); }
-  .eyebrow { font-size:clamp(25.08px,3.8016vh,44.88px); }
-  .subtitle { font-size:clamp(54.12px,9.504vh,135.96px); }
-  .detail { font-size:clamp(40.92px,6.336vh,88.44px); }
-  .day { font-size:clamp(44.88px,6.336vh,87.12px); }
-  .day strong { font-size:clamp(95.04px,14.256vh,213.84px); }
+  .clock { font-size:38.016vh;
+  font-size:clamp(190.08px,38.016vh,570.24px); }
+  .weather { font-size:61.776vh;
+  font-size:clamp(269.28px,61.776vh,871.2px); }
+  .forecast { font-size:26.928vh;
+  font-size:clamp(158.4px,26.928vh,396px); }
+  .datebig { font-size:63.36vh;
+  font-size:clamp(300.96px,63.36vh,855.36px); }
+  .eyebrow { font-size:3.8016vh;
+  font-size:clamp(25.08px,3.8016vh,44.88px); }
+  .subtitle { font-size:9.504vh;
+  font-size:clamp(54.12px,9.504vh,135.96px); }
+  .detail { font-size:6.336vh;
+  font-size:clamp(40.92px,6.336vh,88.44px); }
+  .day { font-size:6.336vh;
+  font-size:clamp(44.88px,6.336vh,87.12px); }
+  .day strong { font-size:14.256vh;
+  font-size:clamp(95.04px,14.256vh,213.84px); }
 }
 @media (prefers-reduced-motion:reduce) {
   *,*:before { animation:none!important; transition:none!important; }
@@ -192,18 +208,7 @@ html,body {
 }
 </style>
 </head>
-<body><div id="screen-debug" style="position:fixed;left:0;top:0;z-index:99999;background:black;color:white;font:20px Arial;padding:12px;">
-  Measuring...
-</div>
-<script>
-window.addEventListener('load', function() {
-  var s = document.getElementById('stage');
-  document.getElementById('screen-debug').innerHTML =
-    'Window: ' + window.innerWidth + ' x ' + window.innerHeight +
-    '<br>Screen: ' + screen.width + ' x ' + screen.height +
-    '<br>Stage: ' + s.offsetWidth + ' x ' + s.offsetHeight;
-});
-</script>
+<body>
 <main id="stage">
   <section class="slide ivory active">
     <div class="eyebrow">Little Canada, Minnesota</div>
@@ -267,6 +272,7 @@ window.addEventListener('load', function() {
       clock.textContent = time;
       if (lastTime && index === 0) flip(clock);
       lastTime = time;
+      fitScreen();
     }
     document.getElementById('ampm').textContent = h>=12 ? 'PM':'AM';
     document.getElementById('today').textContent =
@@ -278,27 +284,72 @@ window.addEventListener('load', function() {
     document.getElementById('weekday').textContent =
       d.toLocaleDateString('en-US',{weekday:'long'});
   }
+  // Conjure predates inset and clamp. Set actual pixel geometry before the
+  // clock/weather run, and reset every property when orientation changes.
   function fitScreen() {
     var stage = document.getElementById('stage');
-    var w = window.innerWidth;
-    var h = window.innerHeight;
+    var w = window.innerWidth || document.documentElement.clientWidth;
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    if (!w || !h) return;
+    var rotated = w > h;
+    var shortSide = Math.min(w,h);
+    stage.style.position = 'absolute';
+    stage.style.left = '0px';
+    stage.style.top = rotated ? h + 'px' : '0px';
+    stage.style.width = (rotated ? h : w) + 'px';
+    stage.style.height = (rotated ? w : h) + 'px';
+    stage.style.right = 'auto';
+    stage.style.bottom = 'auto';
+    stage.style.webkitTransformOrigin = stage.style.transformOrigin = 'top left';
+    stage.style.webkitTransform = stage.style.transform = rotated ? 'rotate(-90deg)' : 'none';
 
-    if (w > h) {
-      stage.style.position = 'absolute';
-      stage.style.left = '0px';
-      stage.style.top = h + 'px';
-      stage.style.width = h + 'px';
-      stage.style.height = w + 'px';
-      stage.style.right = 'auto';
-      stage.style.bottom = 'auto';
-      stage.style.webkitTransformOrigin = 'top left';
-      stage.style.transformOrigin = 'top left';
-      stage.style.webkitTransform = 'rotate(-90deg)';
-      stage.style.transform = 'rotate(-90deg)';
+    var sizes = [
+      ['.clock',205.92,41.184,601.92,190.08,38.016,570.24],
+      ['.weather',285.12,66.528,934.56,269.28,61.776,871.2],
+      ['.forecast',158.4,28.512,427.68,158.4,26.928,396],
+      ['.datebig',316.8,68.112,918.72,300.96,63.36,855.36],
+      ['.eyebrow',25.08,3.96,44.88,25.08,3.8016,44.88],
+      ['.subtitle',54.12,9.8208,145.2,54.12,9.504,135.96],
+      ['.detail',40.92,6.336,92.4,40.92,6.336,88.44],
+      ['.day',44.88,6.336,92.4,44.88,6.336,87.12],
+      ['.day strong',95.04,15.84,229.68,95.04,14.256,213.84]
+    ];
+    for (var i=0; i<sizes.length; i++) {
+      var rule=sizes[i], base=rotated ? 4 : 1;
+      var px=Math.max(rule[base],Math.min(shortSide*rule[base+1]/100,rule[base+2]));
+      var elements=document.querySelectorAll(rule[0]);
+      for (var j=0; j<elements.length; j++) elements[j].style.fontSize=px+'px';
+    }
+    // Keep long clock/weather values and all five forecast rows inside the
+    // safe area, including TVs whose installed fonts differ from the desktop.
+    for (var n=0; n<slides.length; n++) {
+      var slide=slides[n], css=window.getComputedStyle(slide);
+      var available=slide.clientHeight-parseFloat(css.paddingTop)-parseFloat(css.paddingBottom);
+      for (var pass=0; pass<3; pass++) {
+        var used=0, ratio=1;
+        for (var k=0; k<slide.children.length; k++) {
+          var child=slide.children[k], cs=window.getComputedStyle(child);
+          used+=child.offsetHeight+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom);
+          if(child.scrollWidth>child.clientWidth && child.clientWidth)
+            ratio=Math.min(ratio,child.clientWidth/child.scrollWidth);
+        }
+        if(used>available) ratio=Math.min(ratio,available/used);
+        if(ratio>=0.999) break;
+        var text=slide.querySelectorAll('.hero,.eyebrow,.subtitle,.detail,.day,.day strong');
+        var fonts=[];
+        for(k=0;k<text.length;k++) fonts[k]=parseFloat(window.getComputedStyle(text[k]).fontSize);
+        for(k=0;k<text.length;k++) text[k].style.fontSize=(fonts[k]*ratio*0.98)+'px';
+      }
     }
   }
 
-
+  fitScreen();
+  window.addEventListener('load', fitScreen);
+  window.addEventListener('resize', fitScreen);
+  window.addEventListener('orientationchange', fitScreen);
+  // Embedded receivers can report a provisional viewport during launch.
+  setTimeout(fitScreen,250);
+  setTimeout(fitScreen,1000);
   tick();
   setInterval(tick,1000);
   setInterval(function(){show(index+1);},14000);
@@ -331,6 +382,7 @@ window.addEventListener('load', function() {
       rows[i].getElementsByTagName('span')[0].textContent='---';
       rows[i].getElementsByTagName('strong')[0].textContent='--°';
     }
+    fitScreen();
   }
 
   function getWeather() {
@@ -369,6 +421,7 @@ window.addEventListener('load', function() {
               ? Math.round(f.temperature_2m_max[i])+'°' : '--°';
         }
         weatherLast=new Date().getTime();
+        fitScreen();
       } catch(e) {
         if(new Date().getTime()-weatherLast>1800000)weatherUnavailable();
       }
