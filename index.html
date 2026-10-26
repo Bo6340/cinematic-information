@@ -192,7 +192,18 @@ html,body {
 }
 </style>
 </head>
-<body>
+<body><div id="screen-debug" style="position:fixed;left:0;top:0;z-index:99999;background:black;color:white;font:20px Arial;padding:12px;">
+  Measuring...
+</div>
+<script>
+window.addEventListener('load', function() {
+  var s = document.getElementById('stage');
+  document.getElementById('screen-debug').innerHTML =
+    'Window: ' + window.innerWidth + ' x ' + window.innerHeight +
+    '<br>Screen: ' + screen.width + ' x ' + screen.height +
+    '<br>Stage: ' + s.offsetWidth + ' x ' + s.offsetHeight;
+});
+</script>
 <main id="stage">
   <section class="slide ivory active">
     <div class="eyebrow">Little Canada, Minnesota</div>
