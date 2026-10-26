@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Cinematic Information 2.5.5 · Heavy Type</title>
+<title>Cinematic Information 2.5.6 · Central Time</title>
 <style>
 /* Embedded Anton: https://github.com/google/fonts/tree/main/ofl/anton
 Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont.git)
@@ -368,24 +368,37 @@ html,body {
     for (var j=0; j<targets.length; j++) flip(targets[j]);
   }
 
+  // Minnesota follows US Central Time. Use UTC arithmetic rather than the
+  // receiver's local zone or Intl, which older Conjure versions may lack.
+  // US rules since 2007: second Sunday in March / first Sunday in November.
+  function centralDate(now) {
+    var year=now.getUTCFullYear();
+    var marchSunday=8+(7-new Date(Date.UTC(year,2,1)).getUTCDay())%7;
+    var novemberSunday=1+(7-new Date(Date.UTC(year,10,1)).getUTCDay())%7;
+    var start=Date.UTC(year,2,marchSunday,8);
+    var end=Date.UTC(year,10,novemberSunday,7);
+    var daylight=now.getTime()>=start && now.getTime()<end;
+    return new Date(now.getTime()-(daylight ? 5 : 6)*3600000);
+  }
+
   function tick() {
-    var d = new Date(), h = d.getHours();
-    var time = (h%12||12) + ':' + ('0'+d.getMinutes()).slice(-2);
-    if (lastTime !== time) {
-      clock.textContent = time;
-      if (lastTime && index === 0) flip(clock);
-      lastTime = time;
-      fitScreen();
+    var d=centralDate(new Date()), h=d.getUTCHours();
+    var weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var weekday=weekdays[d.getUTCDay()], month=months[d.getUTCMonth()];
+    var time=(h%12||12)+':'+('0'+d.getUTCMinutes()).slice(-2);
+    var changed=lastTime!==time;
+    if (changed) {
+      clock.textContent=time;
+      if (lastTime && index===0) flip(clock);
+      lastTime=time;
     }
-    document.getElementById('ampm').textContent = h>=12 ? 'PM':'AM';
-    document.getElementById('today').textContent =
-      d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-    document.getElementById('daynumber').innerHTML =
-      d.getDate()+'<span class="accent">.</span>';
-    document.getElementById('monthyear').textContent =
-      d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-    document.getElementById('weekday').textContent =
-      d.toLocaleDateString('en-US',{weekday:'long'});
+    document.getElementById('ampm').textContent=h>=12 ? 'PM':'AM';
+    document.getElementById('today').textContent=weekday+', '+month+' '+d.getUTCDate();
+    document.getElementById('daynumber').innerHTML=d.getUTCDate()+'<span class="accent">.</span>';
+    document.getElementById('monthyear').textContent=month+' '+d.getUTCFullYear();
+    document.getElementById('weekday').textContent=weekday;
+    if (changed) fitScreen();
   }
   // Conjure predates inset and clamp. Set actual pixel geometry before the
   // clock/weather run, and reset every property when orientation changes.
