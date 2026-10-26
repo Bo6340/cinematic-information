@@ -156,17 +156,14 @@ html,body {
 }
 @media (orientation:landscape) {
   #stage {
-    position:absolute;
-    left:0;
-    top:100%;
-    right:auto;
-    bottom:auto;
-    width:100vh;
-    height:100vw;
-    transform-origin:top left;
-    -webkit-transform:rotate(-90deg);
-    transform:rotate(-90deg);
-  }
+  inset:auto;
+  left:0;
+  top:100vh;
+  width:100vh;
+  height:100vw;
+  transform-origin:top left;
+  transform:rotate(-90deg);
+}
   .slide { padding:8% 9% 8% 16%; }
   .clock { font-size:clamp(190.08px,38.016vh,570.24px); }
   .weather { font-size:clamp(269.28px,61.776vh,871.2px); }
@@ -290,8 +287,7 @@ html,body {
     }
   }
 
-  fitScreen();
-  window.addEventListener('resize', fitScreen);
+
   tick();
   setInterval(tick,1000);
   setInterval(function(){show(index+1);},14000);
