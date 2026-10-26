@@ -270,7 +270,28 @@ html,body {
     document.getElementById('weekday').textContent =
       d.toLocaleDateString('en-US',{weekday:'long'});
   }
+  function fitScreen() {
+    var stage = document.getElementById('stage');
+    var w = window.innerWidth;
+    var h = window.innerHeight;
 
+    if (w > h) {
+      stage.style.position = 'absolute';
+      stage.style.left = '0px';
+      stage.style.top = h + 'px';
+      stage.style.width = h + 'px';
+      stage.style.height = w + 'px';
+      stage.style.right = 'auto';
+      stage.style.bottom = 'auto';
+      stage.style.webkitTransformOrigin = 'top left';
+      stage.style.transformOrigin = 'top left';
+      stage.style.webkitTransform = 'rotate(-90deg)';
+      stage.style.transform = 'rotate(-90deg)';
+    }
+  }
+
+  fitScreen();
+  window.addEventListener('resize', fitScreen);
   tick();
   setInterval(tick,1000);
   setInterval(function(){show(index+1);},14000);
