@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Cinematic Information 2.5.7 · Type Spacing</title>
+<title>Cinematic Information 2.5.8 · RGB and UHD Layout</title>
 <style>
 /* Embedded Anton: https://github.com/google/fonts/tree/main/ofl/anton
 Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont.git)
@@ -135,7 +135,7 @@ html,body {
   position:absolute;
   top:0; right:0; bottom:0; left:0;
   pointer-events:none;
-  box-shadow:inset 0 0 2.5vmin #fff5,inset 0 0 8vmin #26160c22;
+  box-shadow:inset 0 0 2.5vmin rgba(255,248,225,.15),inset 0 0 8vmin rgba(38,22,12,.18);
   z-index:5;
 }
 .slide {
@@ -156,21 +156,28 @@ html,body {
   opacity:1;
   visibility:visible;
 }
-.slide:before {
-  content:'';
-  position:absolute;
-  top:-35%; right:-35%; bottom:-35%; left:-35%;
-  background:
-    radial-gradient(ellipse at 30% 40%,#fff4,transparent 48%),
-    radial-gradient(ellipse at 75% 70%,#0001,transparent 52%);
-  animation:drift 25s ease-in-out infinite alternate;
-  pointer-events:none;
-}
 .slide>* { position:relative; z-index:3; flex-shrink:0; max-width:100%; }
-.ivory { background:#e8dfcc; color:#302b28; }
-.red { background:#d36a24; color:#fff8e8; }
-.yellow { background:#dfb33d; color:#302b28; }
-.charcoal { background:#302b28; color:#fff3d9; }
+/* Use classic sRGB gradients for Conjure, with solid fallbacks. */
+.ivory {
+  background:rgb(234,221,191);
+  background:radial-gradient(ellipse at 76% 30%,rgb(255,248,226),rgb(218,193,153));
+  color:rgb(43,35,28);
+}
+.red {
+  background:rgb(176,65,23);
+  background:radial-gradient(ellipse at 76% 30%,rgb(195,75,22),rgb(136,42,17));
+  color:rgb(255,249,235);
+}
+.yellow {
+  background:rgb(237,176,39);
+  background:radial-gradient(ellipse at 76% 30%,rgb(255,213,81),rgb(221,144,17));
+  color:rgb(47,33,22);
+}
+.charcoal {
+  background:rgb(40,34,29);
+  background:radial-gradient(ellipse at 76% 30%,rgb(73,61,50),rgb(28,24,21));
+  color:rgb(255,243,216);
+}
 .eyebrow {
   font:700 3.96vmin/1.2 Arial,sans-serif;
   font:700 clamp(25.08px,3.96vmin,44.88px)/1.2 Arial,sans-serif;
@@ -249,10 +256,6 @@ html,body {
 @keyframes enter {
   from { opacity:0; transform:translateY(4%) scaleY(1.08); }
   to { opacity:1; transform:none; }
-}
-@keyframes drift {
-  from { transform:translate(-2%,-2%); }
-  to { transform:translate(3%,3%); }
 }
 .slide.red .eyebrow,
 .slide.red .hero,
@@ -409,6 +412,10 @@ html,body {
     if (!w || !h) return;
     var rotated = w > h;
     var shortSide = Math.min(w,h);
+    // Keep the 1080p composition at larger viewports. Size the live text
+    // directly in the viewport, so there is no extra bitmap scaling pass.
+    var uhdScale = Math.max(1,shortSide/1080);
+    var designSide = shortSide/uhdScale;
     stage.style.position = 'absolute';
     stage.style.left = '0px';
     stage.style.top = rotated ? h + 'px' : '0px';
@@ -432,7 +439,7 @@ html,body {
     ];
     for (var i=0; i<sizes.length; i++) {
       var rule=sizes[i], base=rotated ? 4 : 1;
-      var px=Math.max(rule[base],Math.min(shortSide*rule[base+1]/100,rule[base+2]));
+      var px=uhdScale*Math.max(rule[base],Math.min(designSide*rule[base+1]/100,rule[base+2]));
       var elements=document.querySelectorAll(rule[0]);
       for (var j=0; j<elements.length; j++) elements[j].style.fontSize=px+'px';
     }
